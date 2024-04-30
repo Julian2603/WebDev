@@ -1,0 +1,154 @@
+:root {
+    --sherwood-green: #1d4b3b;
+    --dessert-cream: #f7e6d3;
+    --sweet-curry: #e7a572;
+    --cosmic-red: #df2a4c;
+}
+body,
+html {
+    margin: 0;
+    padding: 0;
+}
+::-webkit-scrollbar {
+    width: 5px; 
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #c4c4c4;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #c4c4c4; 
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    text-transform: uppercase;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.navbar-brand {
+    color: var(--sherwood-green);
+}
+
+.navbar-nav .nav-link {
+    color: #7294a0;
+}
+
+.navbar-solid {
+    background-color: var(--sweet-curry); 
+    box-shadow: 0 2px 4px #e0e6d0; 
+}
+
+.content-section {
+    padding: 90px 0; 
+    margin-left: 0; 
+    margin-right: 0;
+    background-color: var(--dessert-cream) 
+}
+
+.name-section {
+    margin-top: 35px;
+    font-size: 45px;
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 2px;
+    background: var(--sherwood-green);
+    -webkit-background-clip: text; /* Apply gradient to text */
+    background-clip: text; /* Apply gradient to text for compatibility */
+    -webkit-text-fill-color: transparent; /* Hide original text color */
+}
+
+
+/* To hide the name-section */
+.hide {
+    display: none;
+}
+
+/* To hide the name-section on small screens */
+@media screen and (max-width: 768px) {
+    .name-section {
+        display: none;
+    }
+}
+
+
+.col-md-6:last-child {
+    padding-right: 0;
+}
+
+.container {
+    max-width: 1200px;
+    min-width: fit-content;
+}
+
+
+.about-section,
+.education-section,
+.hobbies-section {
+    margin-top: 50px;
+}
+
+.img-fluid {
+    max-width: fit-content;
+    max-height: fit-content;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+#aboutme-image,
+#education-imag,
+#education-image {
+    max-width: 100%;
+    max-height: 450px;
+    width: 700px; 
+    height: 450px;
+    object-fit: cover; 
+}
+
+#profile-image {
+    width: 670px; 
+    height: 450px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.section-title {
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-transform: uppercase;
+    background: var(--cosmic-red);
+    -webkit-background-clip: text; 
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.section-description {
+    padding: 20px;
+    font-size: 20px;
+    text-align: center;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    color: #3d645e;
+}
+
+.section-description-list {
+    padding: 1px;
+    font-size: 20px;
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #3d645e;
+}
