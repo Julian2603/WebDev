@@ -1,0 +1,140 @@
+{% extends ../../../mysite/templates/main.html %}
+<script src="https://cdn.tailwindcss.com"></script>
+{% block content %}
+<section id="welcome">
+  <div class=" p-10 grid grid-cols-2 gap-4 ml-12">
+    <div class="flex flex-col gap-7">
+      <h3 class="font-sans font-normal text-3xl">Hello, my name is</h3>
+      <h1 class="font-sans font-black text-7xl text-[#0097A5] ml-20 hover:text-[#FD8C62]">Julián Robert</h1>
+      <h3 class="font-sans font-normal text-3xl ">A software developer from San José, Costa Rica</h3>
+      <hr class="border-[#FFDDD2] w-3/4 mt-4">
+      <p class="font-sans font-light text-lg ">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. </p>
+    </div>
+    <div class="relative">
+      <div class=" flex justify-center z-50">
+        <img src="profile.jpg" class="h-96 w-96 rounded-full border-4 border-white">
+      </div>
+      <!-- <div class="flex justify-end mt-8 mr-32 relative">
+        <div class="h-96 w-96 rounded-full bg-[#FD8C62]"></div>
+      </div> -->
+    </div>
+  </div>
+</section>
+<section id="interests">
+  <div class="bg-[#EDF6F9] p-10 pl-20 pb-16 space-y-8">
+    <h2 class="font-sans font-bold text-4xl">Areas of interest</h2>
+    <div class="ml-12 grid grid-cols-2 ">
+      <div class="space-y-5">
+        <h3 class="font-sans font-light text-2xl">Web design</h3>
+        <h3 class="font-sans font-light text-2xl">Web development</h3>
+      </div>
+      <div class="ml-0 space-y-5">
+        <h3 class="font-sans font-light text-2xl">Product design</h3>
+        <h3 class="font-sans font-light text-2xl">Mobile development</h3>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="techs">
+  <div class="p-10 pl-20 space-y-8 pb-16">
+    <h2 class="font-sans font-bold text-4xl text-[#E29578]">Technologies</h2>
+    <div class="grid grid-cols-4 gap-5 space-y-4 ml-12">
+      <div class="flex flex-row items-center gap-5">
+      <img class="" src="js.svg" alt="">
+      <h3 class="font-sans font-light text-2xl">Javascript</h3>
+    </div>
+    <div class="flex flex-row items-center gap-5">
+      <img class="" src="ts.svg" alt="">
+      <h3 class="font-sans font-light text-2xl">Typescript</h3>
+    </div>
+    <div class="flex flex-row items-center gap-5">
+      <img class="" src="python.svg" alt="">
+      <h3 class="font-sans font-light text-2xl">Python</h3>
+    </div>
+    <div class="flex flex-row items-center gap-5">
+      <img class="" src="figma.svg" alt="">
+      <h3 class="font-sans font-light text-2xl">Figma</h3>
+    </div>
+    <div class="flex flex-row items-center gap-5">
+      <img class="" src="html.svg" alt="">
+      <h3 class="font-sans font-light text-2xl">HTML</h3>
+    </div>
+    <div class="flex flex-row items-center gap-5">
+      <img class="" src="react.svg" alt="">
+      <h3 class="font-sans font-light text-2xl">React</h3>
+    </div>
+    <div class="flex flex-row items-center gap-5">
+      <img class="" src="django.svg" alt="">
+      <h3 class="font-sans font-light text-2xl">Django</h3>
+    </div>
+    <div class="flex flex-row items-center gap-5">
+      <img class="" src="c.svg" alt="">
+      <h3 class="font-sans font-light text-2xl">C/C++</h3>
+    </div>
+    <div class="flex flex-row items-center gap-5">
+      <img class="" src="css.svg" alt="">
+      <h3 class="font-sans font-light text-2xl">CSS</h3>
+    </div>
+    <div class="flex flex-row items-center gap-5">
+      <img class="" src="sql.svg" alt="">
+      <h3 class="font-sans font-light text-2xl">SQL</h3>
+    </div>
+  </div>
+</div>
+</section>
+<section id="portfolio">
+<div class="bg-[#F4F3F8] p-10 pl-20 space-y-8 pb-32">
+  <h2 class="font-sans font-bold text-4xl text-[#006D77]">Portfolio</h2>
+  <div class="grid grid-cols-2 bg-[#FFDDD2] rounded-3xl p-10 mx-80 shadow-md">
+    <div class="flex flex-col gap-5">
+      <h2 class="font-sans font-bold text-3xl text-black">TaskTransit</h2>
+        <h3 class="font-sans font-normal text-2xl text-black mb-2">Kanban-style task management aplication</h3>
+        <h3 class="font-sans font-normal text-xl text-black">Fullstack development</h3>
+        <div class="gap-4">
+          <p class="font-sans font-light text-lg text-black">Python</p>
+          <p class="font-sans font-light text-lg text-black">Django</p>
+          <p class="font-sans font-light text-lg text-black">HTML</p>
+          <p class="font-sans font-light text-lg text-black">CSS</p>
+        </div>
+      </div>
+      <div class="flex justify-center align-baseline mb-0 pb-0">
+        <img src="tasktransit.png" alt="">
+      </div>
+    </div>
+    <div class="grid grid-cols-2 bg-[#FFDDD2] rounded-3xl p-10 mx-80 shadow-md">
+      <div class="flex flex-col gap-5">
+        <h2 class="font-sans font-bold text-3xl text-black">TaskTransit</h2>
+        <h3 class="font-sans font-normal text-2xl text-black mb-2">Kanban-style task management aplication</h3>
+        <h3 class="font-sans font-normal text-xl text-black">Fullstack development</h3>
+        <div class="gap-4">
+          <p class="font-sans font-light text-lg text-black">Python</p>
+          <p class="font-sans font-light text-lg text-black">Django</p>
+          <p class="font-sans font-light text-lg text-black">HTML</p>
+          <p class="font-sans font-light text-lg text-black">CSS</p>
+        </div>
+      </div>
+      <div class="flex justify-center align-baseline mb-0 pb-0">
+        <img src="kura.png" alt="">
+      </div>
+    </div>
+    <div class="grid grid-cols-2 bg-[#FFDDD2] rounded-3xl p-10 mx-80 shadow-md">
+      <div class="flex flex-col gap-5">
+        <h2 class="font-sans font-bold text-3xl text-black">TaskTransit</h2>
+        <h3 class="font-sans font-normal text-2xl text-black mb-2">Kanban-style task management aplication</h3>
+        <h3 class="font-sans font-normal text-xl text-black">Fullstack development</h3>
+        <div class="gap-4">
+          <p class="font-sans font-light text-lg text-black">Python</p>
+          <p class="font-sans font-light text-lg text-black">Django</p>
+          <p class="font-sans font-light text-lg text-black">HTML</p>
+          <p class="font-sans font-light text-lg text-black">CSS</p>
+        </div>
+      </div>
+      <div class="flex justify-center align-baseline mb-0 pb-0">
+        <img src="lasplumas.png" alt="">
+      </div>
+    </div>
+  </div>
+  
+  
+</section>
+{% endblock content %}
