@@ -10,17 +10,20 @@
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   {% tailwind_css %}
+  {% load static %}
+
 </head>
 <body>
   <!-- NAVBAR -->
   <div class=" pt-10 pb-2 flex justify-around px-10">
-    <div class="flex justify-star">
-      <img src="logo.svg">
+    <div class="flex justify-start">
+      <img src="{% static 'imgs/logo.svg' %}">
     </div>
 
     <div class="flex flex-row justify-center space-x-10">
+      <a href="{% url 'home' %}" class="font-sans font-normal text-3xl hover:text-[#FD8C62]">HOME</a>
       <a href="{% url 'blog' %}" class="font-sans font-normal text-3xl hover:text-[#FD8C62]">BLOG</a>
-      <a href="{% url 'resume' %}" class="font-sans font-normal text-3xl hover:text-[#FD8C62]">RESUME</a>
+      <a href="" class="font-sans font-normal text-3xl decoration-[#FD8C62] underline underline-offset-8">RESUME</a>
       <a href="{% url 'about' %}" class="font-sans font-normal text-3xl hover:text-[#FD8C62]">ABOUT</a>
     </div>
   </div>
@@ -65,43 +68,43 @@
       <h2 class="font-sans font-bold text-4xl text-[#E29578]">Technologies</h2>
       <div class="grid grid-cols-4 gap-5 space-y-4 ml-12">
         <div class="flex flex-row items-center gap-5">
-        <img class="" src="js.svg" alt="">
+        <img class="" src="{% static 'imgs/js.svg' %}" alt="">
         <h3 class="font-sans font-light text-2xl">Javascript</h3>
       </div>
       <div class="flex flex-row items-center gap-5">
-        <img class="" src="ts.svg" alt="">
+        <img class="" src="{% static 'imgs/ts.svg' %}" alt="">
         <h3 class="font-sans font-light text-2xl">Typescript</h3>
       </div>
       <div class="flex flex-row items-center gap-5">
-        <img class="" src="python.svg" alt="">
+        <img class="" src="{% static 'imgs/python.svg' %}" alt="">
         <h3 class="font-sans font-light text-2xl">Python</h3>
       </div>
       <div class="flex flex-row items-center gap-5">
-        <img class="" src="figma.svg" alt="">
+        <img class="" src="{% static 'imgs/figma.svg' %}" alt="">
         <h3 class="font-sans font-light text-2xl">Figma</h3>
       </div>
       <div class="flex flex-row items-center gap-5">
-        <img class="" src="html.svg" alt="">
+        <img class="" src="{% static 'imgs/html.svg' %}" alt="">
         <h3 class="font-sans font-light text-2xl">HTML</h3>
       </div>
       <div class="flex flex-row items-center gap-5">
-        <img class="" src="react.svg" alt="">
+        <img class="" src="{% static 'imgs/react.svg' %}" alt="">
         <h3 class="font-sans font-light text-2xl">React</h3>
       </div>
       <div class="flex flex-row items-center gap-5">
-        <img class="" src="django.svg" alt="">
+        <img class="" src="{% static 'imgs/django.svg' %}" alt="">
         <h3 class="font-sans font-light text-2xl">Django</h3>
       </div>
       <div class="flex flex-row items-center gap-5">
-        <img class="" src="c.svg" alt="">
+        <img class="" src="{% static 'imgs/c.svg' %}" alt="">
         <h3 class="font-sans font-light text-2xl">C/C++</h3>
       </div>
       <div class="flex flex-row items-center gap-5">
-        <img class="" src="css.svg" alt="">
+        <img class="" src="{% static 'imgs/css.svg' %}" alt="">
         <h3 class="font-sans font-light text-2xl">CSS</h3>
       </div>
       <div class="flex flex-row items-center gap-5">
-        <img class="" src="sql.svg" alt="">
+        <img class="" src="{% static 'imgs/sql.svg' %}" alt="">
         <h3 class="font-sans font-light text-2xl">SQL</h3>
       </div>
     </div>
@@ -160,13 +163,8 @@
     </div>
     <div class="flex flex-col justify-end gap-x-1.5">
       <div class="flex justify-end gap-x-32">
-        <div class="flex flex-row space-x-10">
-          <a href="{% url 'blog' %}" class="font-sans font-normal text-lg text-white hover:text-[#FD8C62]">BLOG</a>
-          <a href="{% url 'resume' %}" class="font-sans font-normal text-lg text-white hover:text-[#FD8C62]">RESUME</a>
-          <a href="{% url 'about' %}" class="font-sans font-normal text-lg text-white hover:text-[#FD8C62]">ABOUT</a>
-        </div>
         <div class="flex justify-end shrink-0">
-          <img class="h-10" src="logo-white.svg">
+          <img class="h-10" src="{% static 'imgs/logo-white.svg' %}">
         </div>
       </div>
       <div class="flex justify-end">
