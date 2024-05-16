@@ -84,19 +84,19 @@
   </section>
   
   <!-- FOOTER -->
-  <div class="p-5 px-20 bg-[#006D77] grid grid-cols-3 gap-2 shrink-0">
+  <div class="p-5 px-20 bg-[#006D77] grid grid-cols-3 md:grid-row gap-2 shrink-0">
     <div class="grid grid-cols-2 gap-4">
       <div class="col-span-2 flex items-center space-x-2">
         <i class="fa-regular fa-envelope text-white "></i>
-        <p class="font-sans font-normal text-s text-white">julianrobertsolano01@gmail.com</p>
+        <a class="font-sans font-normal text-s text-white" href="mailto:julian.robertsolano@ucr.ac.cr">julianrobertsolano01@gmail.com</a>
       </div>
       <div class="flex items-center space-x-2">
         <i class="fa-brands fa-github text-white"></i>
-        <p class="font-sans font-normal text-s text-white">Julian2603</p>
+        <a class="font-sans font-normal text-s text-white" href="https://github.com/">Julian2603</a>
       </div>
       <div class="flex items-center space-x-2">
         <i class="fa-brands fa-linkedin text-white"></i>
-        <p class="font-sans font-normal text-s text-white">Julian2603</p>
+        <a class="font-sans font-normal text-s text-white" href="https://www.linkedin.com/">Julian2603</a>
       </div>
     </div>
     <div class="flex flex-col justify-center align-items-center gap-y-2.5">
@@ -104,7 +104,7 @@
         <p class="font-sans font-normal text-xl text-white">Let's get in touch!</p>
       </div>
       <div class="flex justify-center align-items-center">
-        <button class="bg-[#83C5BE] hover:bg-[#83C5BE]/70 p-1 px-6 rounded-lg font-sans font-medium text-xl text-black shadow-lg">Contact me</button>
+        <a href="{% url 'contact' %}" class="bg-[#83C5BE] hover:bg-[#83C5BE]/70 p-1 px-6 rounded-lg font-sans font-medium text-xl text-black shadow-lg">Contact me</a>
       </div>
     </div>
     <div class="flex flex-col justify-end gap-x-1.5">

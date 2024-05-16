@@ -28,6 +28,9 @@
   </div>  
   <!-- {% block content %}
   {% endblock content %} -->
+  <div class="max-w-md mx-auto overflow-hidden md:max-w-2xl">
+
+  </div>
   <section id="welcome">
     <div class=" p-10 grid grid-cols-2 gap-4 ml-12">
       <div class="flex flex-col gap-7">
@@ -112,53 +115,56 @@
 </section>
 <section id="portfolio">
   <div class="bg-[#F4F3F8] p-10 pl-20 space-y-8 pb-32">
-    <h2 class="font-sans font-bold text-4xl text-[#006D77]">Portfolio</h2>
-    <div class="grid grid-cols-2 bg-[#FFDDD2] rounded-3xl p-10 mx-80 shadow-md">
-      <div class="flex flex-col gap-5">
-        <h2 class="font-sans font-bold text-3xl text-black">TaskTransit</h2>
-          <h3 class="font-sans font-normal text-2xl text-black mb-2">Kanban-style task management aplication</h3>
-          <h3 class="font-sans font-normal text-xl text-black">Fullstack development</h3>
-          <div class="gap-4">
-            <p class="font-sans font-light text-lg text-black">Python</p>
-            <p class="font-sans font-light text-lg text-black">Django</p>
-            <p class="font-sans font-light text-lg text-black">HTML</p>
-            <p class="font-sans font-light text-lg text-black">CSS</p>
+    <h2 class="font-sans font-bold text-4xl text-[#006D77] mb-20">Portfolio</h2>
+    <div class="flex flex-col gap-20 items-center">
+        <div class="grid grid-cols-2 bg-[#FFDDD2] rounded-3xl p-10 mx-10 w-10/12 shadow-md">
+          <div class="flex flex-col gap-5">
+            <h2 class="font-sans font-bold text-3xl text-black">TaskTransit</h2>
+            <h3 class="font-sans font-normal text-2xl text-black mb-2">Kanban-style task management aplication</h3>
+            <h3 class="font-sans font-normal text-xl text-black">Fullstack development</h3>
+            <div class="gap-4">
+              <p class="font-sans font-light text-lg text-black">Python</p>
+              <p class="font-sans font-light text-lg text-black">Django</p>
+              <p class="font-sans font-light text-lg text-black">HTML</p>
+              <p class="font-sans font-light text-lg text-black">CSS</p>
+            </div>
+          </div>
+          <div class="flex shrink-0">
+            <img class="flex shrink-0" src="{% static 'imgs/tasktransit.png' %}" alt="">
           </div>
         </div>
-        <div class="flex justify-center align-baseline mb-0 pb-0">
-          <img src="{% static 'imgs/tasktransit.png' %}" alt="">
-        </div>
-      </div>
-      <div class="grid grid-cols-2 bg-[#FFDDD2] rounded-3xl p-10 mx-80 shadow-md">
-        <div class="flex flex-col gap-5">
-          <h2 class="font-sans font-bold text-3xl text-black">TaskTransit</h2>
-          <h3 class="font-sans font-normal text-2xl text-black mb-2">Kanban-style task management aplication</h3>
-          <h3 class="font-sans font-normal text-xl text-black">Fullstack development</h3>
-          <div class="gap-4">
-            <p class="font-sans font-light text-lg text-black">Python</p>
-            <p class="font-sans font-light text-lg text-black">Django</p>
-            <p class="font-sans font-light text-lg text-black">HTML</p>
-            <p class="font-sans font-light text-lg text-black">CSS</p>
+        
+        <div class="grid grid-cols-2 bg-[#FFDDD2] rounded-3xl p-10 mx-10 w-10/12 shadow-md">
+          <div class="flex flex-col gap-5">
+            <h2 class="font-sans font-bold text-3xl text-black">TaskTransit</h2>
+            <h3 class="font-sans font-normal text-2xl text-black mb-2">Kanban-style task management aplication</h3>
+            <h3 class="font-sans font-normal text-xl text-black">Fullstack development</h3>
+            <div class="gap-4">
+              <p class="font-sans font-light text-lg text-black">Python</p>
+              <p class="font-sans font-light text-lg text-black">Django</p>
+              <p class="font-sans font-light text-lg text-black">HTML</p>
+              <p class="font-sans font-light text-lg text-black">CSS</p>
+            </div>
+          </div>
+          <div class="flex justify-center align-baseline mb-0 pb-0">
+            <img src="{% static 'imgs/kura.png' %}" alt="">
           </div>
         </div>
-        <div class="flex justify-center align-baseline mb-0 pb-0">
-          <img src="{% static 'imgs/kura.png' %}" alt="">
-        </div>
-      </div>
-      <div class="grid grid-cols-2 bg-[#FFDDD2] rounded-3xl p-10 mx-80 shadow-md">
-        <div class="flex flex-col gap-5">
-          <h2 class="font-sans font-bold text-3xl text-black">TaskTransit</h2>
-          <h3 class="font-sans font-normal text-2xl text-black mb-2">Kanban-style task management aplication</h3>
-          <h3 class="font-sans font-normal text-xl text-black">Fullstack development</h3>
-          <div class="gap-4">
-            <p class="font-sans font-light text-lg text-black">Python</p>
-            <p class="font-sans font-light text-lg text-black">Django</p>
-            <p class="font-sans font-light text-lg text-black">HTML</p>
-            <p class="font-sans font-light text-lg text-black">CSS</p>
+        <div class="grid grid-cols-2 bg-[#FFDDD2] rounded-3xl p-10 mx-10 w-10/12 shadow-md">
+          <div class="flex flex-col gap-5">
+            <h2 class="font-sans font-bold text-3xl text-black">TaskTransit</h2>
+            <h3 class="font-sans font-normal text-2xl text-black mb-2">Kanban-style task management aplication</h3>
+            <h3 class="font-sans font-normal text-xl text-black">Fullstack development</h3>
+            <div class="gap-4">
+              <p class="font-sans font-light text-lg text-black">Python</p>
+              <p class="font-sans font-light text-lg text-black">Django</p>
+              <p class="font-sans font-light text-lg text-black">HTML</p>
+              <p class="font-sans font-light text-lg text-black">CSS</p>
+            </div>
           </div>
-        </div>
-        <div class="flex justify-center align-baseline mb-0 pb-0">
-          <img src="{% static 'imgs/lasplumas.png' %}" alt="">
+          <div class="flex justify-center align-baseline mb-0 pb-0">
+            <img src="{% static 'imgs/lasplumas.png' %}" alt="">
+          </div>
         </div>
       </div>
     </div>
@@ -167,19 +173,19 @@
   </section>
   
   <!-- FOOTER -->
-  <div class="p-5 px-20 bg-[#006D77] grid grid-cols-3 gap-2 shrink-0">
+  <div class="p-5 px-20 bg-[#006D77] grid grid-cols-3 md:grid-row gap-2 shrink-0">
     <div class="grid grid-cols-2 gap-4">
       <div class="col-span-2 flex items-center space-x-2">
         <i class="fa-regular fa-envelope text-white "></i>
-        <p class="font-sans font-normal text-s text-white">julianrobertsolano01@gmail.com</p>
+        <a class="font-sans font-normal text-s text-white" href="mailto:julian.robertsolano@ucr.ac.cr">julianrobertsolano01@gmail.com</a>
       </div>
       <div class="flex items-center space-x-2">
         <i class="fa-brands fa-github text-white"></i>
-        <p class="font-sans font-normal text-s text-white">Julian2603</p>
+        <a class="font-sans font-normal text-s text-white" href="https://github.com/">Julian2603</a>
       </div>
       <div class="flex items-center space-x-2">
         <i class="fa-brands fa-linkedin text-white"></i>
-        <p class="font-sans font-normal text-s text-white">Julian2603</p>
+        <a class="font-sans font-normal text-s text-white" href="https://www.linkedin.com/">Julian2603</a>
       </div>
     </div>
     <div class="flex flex-col justify-center align-items-center gap-y-2.5">
@@ -187,7 +193,7 @@
         <p class="font-sans font-normal text-xl text-white">Let's get in touch!</p>
       </div>
       <div class="flex justify-center align-items-center">
-        <button class="bg-[#83C5BE] hover:bg-[#83C5BE]/70 p-1 px-6 rounded-lg font-sans font-medium text-xl text-black shadow-lg">Contact me</button>
+        <a href="{% url 'contact' %}" class="bg-[#83C5BE] hover:bg-[#83C5BE]/70 p-1 px-6 rounded-lg font-sans font-medium text-xl text-black shadow-lg">Contact me</a>
       </div>
     </div>
     <div class="flex flex-col justify-end gap-x-1.5">
