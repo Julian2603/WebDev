@@ -7,7 +7,7 @@
 {{ article.body }} -->
 
 {% load static tailwind_tags %}
-<html lang="en">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,21 +19,48 @@
 </head>
 <body>
   <!-- NAVBAR -->
-  <div class=" pt-10 pb-2 flex justify-around px-10">
-    <div class="flex justify-start">
-      <img src="{% static 'imgs/logo.svg' %}">
-    </div>
-
-    <div class="flex flex-row justify-center space-x-10">
-      <a href="{% url 'home' %}" class="font-sans font-normal text-3xl hover:text-[#FD8C62]">HOME</a>
-      <a href="" class="font-sans font-normal text-3xl decoration-[#FD8C62] underline underline-offset-8">BLOG</a>
-      <a href="{% url 'resume' %}" class="font-sans font-normal text-3xl hover:text-[#FD8C62]">RESUME</a>
-      <a href="{% url 'about' %}" class="font-sans font-normal text-3xl hover:text-[#FD8C62]">ABOUT</a>
-    </div>
+<!-- Navbar HTML -->
+<div class="pt-10 pb-2 flex justify-between px-10 items-center">
+  <div class="flex justify-start">
+      <img src="{% static 'imgs/logo.svg' %}" alt="Logo">
   </div>
-  <div class="flex justify-center">
-    <hr class="border-[#BEE7E2] w-3/4 mt-4">
-  </div>  
+
+  <div class="hidden md:flex flex-row justify-center space-x-10">
+      <a href="{% url 'home' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">HOME</a>
+      <a href="#" class="font-sans font-normal text-3xl transition duration-300 decoration-[#FD8C62] underline underline-offset-8">BLOG</a>
+      <a href="{% url 'resume' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">RESUME</a>
+      <a href="{% url 'about' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">ABOUT</a>
+  </div>
+
+  <!-- Hamburger Icon -->
+  <div class="md:hidden flex items-center">
+      <button id="menu-btn" class="focus:outline-none">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+          </svg>
+      </button>
+  </div>
+</div>
+
+<!-- Mobile Menu -->
+<div id="menu" class="hidden md:hidden flex flex-col space-y-4 mt-4 p-10 bg-white shadow-lg absolute w-full left-0 top-20 z-50">
+  <a href="{% url 'home' %}" class="font-sans font-normal text-3xl transition duration-300 decoration-[#FD8C62] hover:text-[#FD8C62]">HOME</a>
+  <a href="#" class="font-sans font-normal text-3xl transition duration-300 text-[#FD8C62]">BLOG</a>
+  <a href="{% url 'resume' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">RESUME</a>
+  <a href="{% url 'about' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">ABOUT</a>
+</div>
+
+<div class="flex justify-center">
+  <hr class="border-[#BEE7E2] w-3/4 mt-4">
+</div>
+
+<!-- JavaScript -->
+<script>
+  document.getElementById('menu-btn').addEventListener('click', function() {
+      var menu = document.getElementById('menu');
+      menu.classList.toggle('hidden');
+  });
+</script> 
   <!-- {% block content %}
   {% endblock content %} -->
 
@@ -48,74 +75,94 @@
           <h2 class="font-sans font-semibold text-2xl text-black">{{ article.author.first_name }} {{ article.author.last_name }}</h2>
         </div>
         <div class="flex flex-col gap-5">
-          <h2 class="font-sans font-semibold text-lg text-black"> Category</h2>
-          <h2 class="font-sans font-semibold text-lg text-black"> 01/01/2001</h2>
+          <h2 class="font-sans font-semibold text-lg text-black"> {{ article.category }} </h2>
+          <h2 class="font-sans font-semibold text-lg text-black"> {{ article.date }} </h2>
         </div>
         <div class="flex flex-col gap-5">
           <div class="flex flex-row gap-2 justify-start align-center items-center">
             <i class="fa-regular fa-clock"></i>
-            <h2 class="font-sans font-semibold text-lg text-black"> Reading time: 5 min</h2>
+            <h2 class="font-sans font-semibold text-lg text-black"> Reading time: {{ article.reading_time }} min</h2>
           </div>
           <div class="flex flex-row gap-2 justify-start align-center items-center">
             <i class="fa-regular fa-heart"></i>
-            <h2 class="font-sans font-semibold text-lg text-black"> 143 likes</h2>
+            <h2 class="font-sans font-semibold text-lg text-black"> {{ article.likes }} likes</h2>
           </div>
         </div>
       </div>
       <hr class="flex justify-center align-center items-center border-2 roundes-full border-[#BEE7E2] w-full mt-4">
       <div class="flex flex-col text-justify">
-        <p class="font-sans font-regular text-lg text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus. </p>
+        <p class="font-sans font-regular text-lg text-black"> {{ article.abstract }} </p>
       </div>
       <div class="flex justify-center">
         <img class="flex items-center w-3/5 h3/5" src="{% static 'imgs/kura.png' %}" alt="">
       </div>
       <div class="text-justify">
-        <p class="font-sans font-regular text-lg text-black">{{ article.body }}</p>
+        <p class="font-sans font-regular text-lg text-black"> {{ article.body }}</p>
       </div>
     </div>
   </section>
   <section id="coments">
-    <div class="p-10 bg-[F4F3F8]">
+    <div class="flex flex-col gap-5 p-10 bg-[F4F3F8]">
+      <!-- insert comment box -->
       <h2 class="font-sans font-extrabold text-3xl text-[#E29578]">Comments</h2>
-      <div class=""></div>
+      <div class="flex flex-col justify-start items-start gap-5">
+        <h2 class="font-sans font-semibold text-xl text-black">Want to add something?</h2>
+        <!-- component -->
+        <div class="w-11/12 mb-">
+          <form>
+            <div class="grid xl:grid-cols-4 xl:gap-6">
+              <div class="relative z-0 mb-6 w-full group">
+                <input type="tel" name="floating_name" id="floating_name" class="block py-2.5 px-0 w-full text-sm text-balck bg-transparent border-0 border-b-2 border-gray-500 appearance-none focus:outline-none focus:ring-0 focus:border-[#006D77] peer" placeholder=" " required />
+                <label for="floating_phone" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-[#006D77] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name</label>
+              </div>
+              <div class="col-span-2 relative z-0 mb-6 w-full group ">
+                <input type="text" name="floating_comment" id="floating_comment" class="block py-2.5 px-0 w-full text-sm text-balck bg-transparent border-0 border-b-2 border-gray-500 appearance-none focus:outline-none focus:ring-0 focus:border-[#006D77] peer" placeholder=" " required />
+                <label for="floating_company" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-[#006D77] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Write a comment</label>
+              </div>
+              <div class="">
+                <button type="submit" class="text-white bg-[#006D77] transition duration-300 shadow-lg hover:bg-[#83C5BE]/70 hover:text-gray-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-base w-full sm:w-auto px-5 py-2.5 text-center ">Add comment</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- comments -->
+
     </div>
   </section>
   
-  <!-- FOOTER -->
-  <div class="p-5 px-20 bg-[#006D77] grid grid-cols-3 md:grid-row gap-2 shrink-0">
-    <div class="grid grid-cols-2 gap-4">
-      <div class="col-span-2 flex items-center space-x-2">
-        <i class="fa-regular fa-envelope text-white "></i>
-        <a class="font-sans font-normal text-s text-white" href="mailto:julian.robertsolano@ucr.ac.cr">julianrobertsolano01@gmail.com</a>
-      </div>
-      <div class="flex items-center space-x-2">
-        <i class="fa-brands fa-github text-white"></i>
-        <a class="font-sans font-normal text-s text-white" href="https://github.com/">Julian2603</a>
-      </div>
-      <div class="flex items-center space-x-2">
-        <i class="fa-brands fa-linkedin text-white"></i>
-        <a class="font-sans font-normal text-s text-white" href="https://www.linkedin.com/">Julian2603</a>
-      </div>
-    </div>
-    <div class="flex flex-col justify-center align-items-center gap-y-2.5">
-      <div class="flex justify-center align-items-center">
-        <p class="font-sans font-normal text-xl text-white">Let's get in touch!</p>
-      </div>
-      <div class="flex justify-center align-items-center">
-        <a href="{% url 'contact' %}" class="bg-[#83C5BE] hover:bg-[#83C5BE]/70 p-1 px-6 rounded-lg font-sans font-medium text-xl text-black shadow-lg">Contact me</a>
-      </div>
-    </div>
-    <div class="flex flex-col justify-end gap-x-1.5">
-      <div class="flex justify-end gap-x-32">
-        <div class="flex justify-end shrink-0">
-          <img class="h-10" src="{% static 'imgs/logo-white.svg' %}">
+   <!-- FOOTER -->
+   <div class="p-5 px-20 bg-[#006D77] grid grid-cols-1 md:grid-cols-3 gap-7 shrink-0">
+    <!-- First Column -->
+    <div class="flex flex-col items-center md:items-start gap-4">
+        <div class="flex items-center space-x-2">
+            <i class="fa-regular fa-envelope text-white"></i>
+            <a class="font-sans font-normal text-s text-white" href="mailto:julian.robertsolano@ucr.ac.cr">julianrobertsolano01@gmail.com</a>
         </div>
-      </div>
-      <div class="flex justify-end">
-        <p class="font-sans font-normal text-s text-white">Copyright &#169; 2024 Julián Robert Solano. All Rights Reserved.</p>
-      </div>
+        <div class="flex items-center space-x-2">
+            <i class="fa-brands fa-github text-white"></i>
+            <a class="font-sans font-normal text-s text-white" href="https://github.com/">Julian2603</a>
+        </div>
+        <div class="flex items-center space-x-2">
+            <i class="fa-brands fa-linkedin text-white"></i>
+            <a class="font-sans font-normal text-s text-white" href="https://www.linkedin.com/">Julian2603</a>
+        </div>
     </div>
-  </div>
+    <!-- Second Column -->
+    <div class="flex flex-col items-center justify-center gap-2.5">
+        <p class="font-sans font-normal text-xl text-white text-center">Let's get in touch!</p>
+        <a href="{% url 'contact' %}" class="bg-[#83C5BE] transition duration-300 hover:bg-[#83C5BE]/70 p-1 px-6 rounded-lg font-sans font-medium text-xl text-black shadow-lg">Contact me</a>
+    </div>
+    <!-- Third Column -->
+    <div class="flex flex-col items-center md:items-end gap-1.5">
+        <div class="flex justify-center md:justify-end">
+            <img class="h-10" src="{% static 'imgs/logo-white.svg' %}">
+        </div>
+        <div class="text-center md:text-right">
+            <p class="font-sans font-normal text-s text-white">Copyright &#169; 2024 Julián Robert Solano. All Rights Reserved.</p>
+        </div>
+    </div>
+</div>
   
 </body>
 </html>

@@ -10,7 +10,7 @@
   {% endfor %}
 </ul> -->
 {% load static tailwind_tags %}
-<html lang="en">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,22 +21,49 @@
     {% tailwind_css %}
 </head>
 <body>
-  <!-- NAVBAR -->
-  <div class=" pt-10 pb-2 flex justify-around px-10">
-    <div class="flex justify-start">
-      <img src="{% static 'imgs/logo.svg' %}">
-    </div>
-
-    <div class="flex flex-row justify-center space-x-10">
-      <a href="{% url 'home' %}" class="font-sans font-normal text-3xl hover:text-[#FD8C62]">HOME</a>
-      <a href="" class="font-sans font-normal text-3xl decoration-[#FD8C62] underline underline-offset-8">BLOG</a>
-      <a href="{% url 'resume' %}" class="font-sans font-normal text-3xl hover:text-[#FD8C62]">RESUME</a>
-      <a href="{% url 'about' %}" class="font-sans font-normal text-3xl hover:text-[#FD8C62]">ABOUT</a>
-    </div>
+<!-- NAVBAR -->
+<!-- Navbar HTML -->
+<div class="pt-10 pb-2 flex justify-between px-10 items-center">
+  <div class="flex justify-start">
+      <img src="{% static 'imgs/logo.svg' %}" alt="Logo">
   </div>
-  <div class="flex justify-center">
-    <hr class="border-[#BEE7E2] w-3/4 mt-4">
-  </div>  
+
+  <div class="hidden md:flex flex-row justify-center space-x-10">
+      <a href="{% url 'home' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">HOME</a>
+      <a href="#" class="font-sans font-normal text-3xl transition duration-300 decoration-[#FD8C62] underline underline-offset-8">BLOG</a>
+      <a href="{% url 'resume' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">RESUME</a>
+      <a href="{% url 'about' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">ABOUT</a>
+  </div>
+
+  <!-- Hamburger Icon -->
+  <div class="md:hidden flex items-center">
+      <button id="menu-btn" class="focus:outline-none">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+          </svg>
+      </button>
+  </div>
+</div>
+
+<!-- Mobile Menu -->
+<div id="menu" class="hidden md:hidden flex flex-col space-y-4 mt-4 p-10 bg-white shadow-lg absolute w-full left-0 top-20 z-50">
+  <a href="{% url 'home' %}" class="font-sans font-normal text-3xl transition duration-300 decoration-[#FD8C62] hover:text-[#FD8C62]">HOME</a>
+  <a href="#" class="font-sans font-normal text-3xl transition duration-300 text-[#FD8C62]">BLOG</a>
+  <a href="{% url 'resume' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">RESUME</a>
+  <a href="{% url 'about' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">ABOUT</a>
+</div>
+
+<div class="flex justify-center">
+  <hr class="border-[#BEE7E2] w-3/4 mt-4">
+</div>
+
+<!-- JavaScript -->
+<script>
+  document.getElementById('menu-btn').addEventListener('click', function() {
+      var menu = document.getElementById('menu');
+      menu.classList.toggle('hidden');
+  });
+</script>
   <!-- {% block content %}
   {% endblock content %} -->
 <div class="flex flex-col p-10 px-20 gap-5">
@@ -44,7 +71,7 @@
       <h1 class="font-sans font-extrabold text-5xl text-[#0097A5]">My Blog</h1>
     </div>
     <div class="flex justify-center my-5">
-      <button class="bg-[#006D77] hover:bg-[#46A0A8]/90 p-2 px-10 rounded-lg font-sans font-bold text-2xl text-white shadow-lg">Subscribe</button>
+      <button class="bg-[#006D77] transition duration-300 hover:bg-[#46A0A8]/90 p-2 px-10 rounded-lg font-sans font-bold text-2xl text-white shadow-lg">Subscribe</button>
     </div>
     <!-- <div class="flex justify-center">
       <div class="flex flex-row bg-[#FFDDD2] w-4/5 p-4 rounded-2xl">
@@ -60,23 +87,33 @@
       </div>
     </div> -->
   </div>
-  <section id="blog">
+  <section id="blog" class="animate-fadeInUp">
     <div class="flex flex-col items-center p-10 pl-20 space-y-8 pb-32">
       {% for article in object_list %}
-      <div class="grid grid-cols-2 bg-[#FFDDD2] rounded-3xl p-10 mx-10 w-3/5 shadow-md">
-        <div class="flex flex-col gap-5">
-          <a class="font-sans font-bold text-3xl text-black underline" href="{% url 'article-detail' article.pk %}">{{ article.title }}</a>
-          <h3 class="font-sans font-normal text-2xl text-black mb-2">{{ article.author.first_name }} {{ article.author.last_name }}</h3>
-          <h3 class="font-sans font-normal text-xl text-black">Fullstack development</h3>
-          <div class="gap-4">
-            <p class="font-sans font-light text-lg text-black">Python</p>
-            <p class="font-sans font-light text-lg text-black">Django</p>
-            <p class="font-sans font-light text-lg text-black">HTML</p>
-            <p class="font-sans font-light text-lg text-black">CSS</p>
-          </div>
+      <div class="grid grid-cols-2 bg-[#FFDDD2] rounded-3xl p-10 mx-10 w-11/12 xl:w-8/12 shadow-md transition duration-300 hover:shadow-2xl">
+        <div class="flex flex-col gap-2">
+          <a class="font-sans font-bold text-3xl text-black underline mb-2 underline-offset-2" href="{% url 'article-detail' article.pk %}">{{ article.title }}</a>
+          <h3 class="font-sans font-bold text-2xl text-black">{{ article.author.first_name }} {{ article.author.last_name }}</h3>
+          <h3 class="font-sans font-normal text-xl text-black">{{ article.date }}</h3>
+          <hr class="border-black w-3/4 mt-4">
+          <p class="font-sans font-normal text-lg text-black">{{ article.category }}</p>
+          <p class="font-sans font-normal text-base text-black">{{ article.abstract }}</p>
+          
         </div>
-        <div class="flex justify-center align-baseline mb-0 pb-0">
-          <img src="{% static 'imgs/tasktransit.png' %}" alt="">
+        <div class="flex flex-col gap-5">
+          <div class="flex justify-center align-baseline mb-0 pb-0">
+            <img src="{% static 'imgs/tasktransit.png' %}" alt="">
+          </div>
+          <div class="flex flex-col gap-2">
+            <div class="flex flex-row gap-2 justify-start align-center items-center">
+              <i class="fa-regular fa-clock"></i>
+              <h2 class="font-sans font-normal text-lg text-black"> Reading time: {{ article.reading_time}} min</h2>
+            </div>
+            <div class="flex flex-row gap-2 justify-start align-center items-center">
+              <i class="fa-regular fa-heart"></i>
+              <h2 class="font-sans font-normal text-lg text-black"> {{ article.likes }} likes</h2>
+            </div>
+          </div>
         </div>
       </div>
       {% endfor %}
@@ -84,40 +121,37 @@
   </section>
   
   <!-- FOOTER -->
-  <div class="p-5 px-20 bg-[#006D77] grid grid-cols-3 md:grid-row gap-2 shrink-0">
-    <div class="grid grid-cols-2 gap-4">
-      <div class="col-span-2 flex items-center space-x-2">
-        <i class="fa-regular fa-envelope text-white "></i>
-        <a class="font-sans font-normal text-s text-white" href="mailto:julian.robertsolano@ucr.ac.cr">julianrobertsolano01@gmail.com</a>
-      </div>
-      <div class="flex items-center space-x-2">
-        <i class="fa-brands fa-github text-white"></i>
-        <a class="font-sans font-normal text-s text-white" href="https://github.com/">Julian2603</a>
-      </div>
-      <div class="flex items-center space-x-2">
-        <i class="fa-brands fa-linkedin text-white"></i>
-        <a class="font-sans font-normal text-s text-white" href="https://www.linkedin.com/">Julian2603</a>
-      </div>
-    </div>
-    <div class="flex flex-col justify-center align-items-center gap-y-2.5">
-      <div class="flex justify-center align-items-center">
-        <p class="font-sans font-normal text-xl text-white">Let's get in touch!</p>
-      </div>
-      <div class="flex justify-center align-items-center">
-        <a href="{% url 'contact' %}" class="bg-[#83C5BE] hover:bg-[#83C5BE]/70 p-1 px-6 rounded-lg font-sans font-medium text-xl text-black shadow-lg">Contact me</a>
-      </div>
-    </div>
-    <div class="flex flex-col justify-end gap-x-1.5">
-      <div class="flex justify-end gap-x-32">
-        <div class="flex justify-end shrink-0">
-          <img class="h-10" src="{% static 'imgs/logo-white.svg' %}">
+  <div class="p-5 px-20 bg-[#006D77] grid grid-cols-1 md:grid-cols-3 gap-7 shrink-0">
+    <!-- First Column -->
+    <div class="flex flex-col items-center md:items-start gap-4">
+        <div class="flex items-center space-x-2">
+            <i class="fa-regular fa-envelope text-white"></i>
+            <a class="font-sans font-normal text-s text-white" href="mailto:julian.robertsolano@ucr.ac.cr">julianrobertsolano01@gmail.com</a>
         </div>
-      </div>
-      <div class="flex justify-end">
-        <p class="font-sans font-normal text-s text-white">Copyright &#169; 2024 Julián Robert Solano. All Rights Reserved.</p>
-      </div>
+        <div class="flex items-center space-x-2">
+            <i class="fa-brands fa-github text-white"></i>
+            <a class="font-sans font-normal text-s text-white" href="https://github.com/">Julian2603</a>
+        </div>
+        <div class="flex items-center space-x-2">
+            <i class="fa-brands fa-linkedin text-white"></i>
+            <a class="font-sans font-normal text-s text-white" href="https://www.linkedin.com/">Julian2603</a>
+        </div>
     </div>
-  </div>
+    <!-- Second Column -->
+    <div class="flex flex-col items-center justify-center gap-2.5">
+        <p class="font-sans font-normal text-xl text-white text-center">Let's get in touch!</p>
+        <a href="{% url 'contact' %}" class="bg-[#83C5BE] transition duration-300 hover:bg-[#83C5BE]/70 p-1 px-6 rounded-lg font-sans font-medium text-xl text-black shadow-lg">Contact me</a>
+    </div>
+    <!-- Third Column -->
+    <div class="flex flex-col items-center md:items-end gap-1.5">
+        <div class="flex justify-center md:justify-end">
+            <img class="h-10" src="{% static 'imgs/logo-white.svg' %}">
+        </div>
+        <div class="text-center md:text-right">
+            <p class="font-sans font-normal text-s text-white">Copyright &#169; 2024 Julián Robert Solano. All Rights Reserved.</p>
+        </div>
+    </div>
+</div>
   
 </body>
 </html>
