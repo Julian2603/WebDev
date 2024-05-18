@@ -83,10 +83,10 @@
             <i class="fa-regular fa-clock"></i>
             <h2 class="font-sans font-semibold text-lg text-black"> Reading time: {{ article.reading_time }} min</h2>
           </div>
-          <div class="flex flex-row gap-2 justify-start align-center items-center">
-            <i class="fa-regular fa-heart"></i>
-            <h2 class="font-sans font-semibold text-lg text-black"> {{ article.likes }} likes</h2>
-          </div>
+          <button id="like-button" class="flex flex-row gap-2 justify-start align-center items-center focus:outline-none" data-article-id="{{ article.id }}">
+            <i id="like-icon" class="fa-regular fa-heart"></i>
+            <h2 id="like-count" class="font-sans font-normal text-lg text-black">{{ article.likes }} likes</h2>
+          </button>
         </div>
       </div>
       <hr class="flex justify-center align-center items-center border-2 roundes-full border-[#BEE7E2] w-full mt-4">
@@ -101,13 +101,41 @@
       </div>
     </div>
   </section>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    document.getElementById('like-button').addEventListener('click', function() {
+      var likeIcon = document.getElementById('like-icon');
+      if (likeIcon.classList.contains('fa-regular')) {
+        likeIcon.classList.remove('fa-regular');
+        likeIcon.classList.add('fa-solid');
+      } else {
+        likeIcon.classList.remove('fa-solid');
+        likeIcon.classList.add('fa-regular');
+      }
+      var articleId = this.getAttribute('data-article-id');
+      $.ajax({
+        type: 'POST',
+        url: '{% url "like-article" %}',
+        data: {
+          'article_id': articleId,
+          'csrfmiddlewaretoken': '{{ csrf_token }}'
+        },
+        success: function(response) {
+          var likeCount = document.getElementById('like-count');
+          likeCount.textContent = response.likes + ' likes';
+          var likeIcon = document.getElementById('like-icon');
+          likeIcon.classList.remove('fa-regular');
+          likeIcon.classList.add('fa-solid');
+        }
+      });
+    });
+  </script>
   <section id="coments">
     <div class="flex flex-col gap-5 p-10 bg-[F4F3F8]">
       <!-- insert comment box -->
       <h2 class="font-sans font-extrabold text-3xl text-[#E29578]">Comments</h2>
       <div class="flex flex-col justify-start items-start gap-5">
         <h2 class="font-sans font-semibold text-xl text-black">Want to add something?</h2>
-        <!-- component -->
         <div class="w-11/12 mb-">
           <form>
             <div class="grid xl:grid-cols-4 xl:gap-6">
@@ -127,7 +155,46 @@
         </div>
       </div>
       <!-- comments -->
-
+      <hr class="border-gray-200 w-11/12 mt-4">
+      <div class="flex items-start flex-col gap-2 px-5">
+        <div class="flex justify-center align-center items-center flex-row gap-5">
+          <p class="font-sans font-normal text-base text-black">Name</p>
+          <p class="font-sans font-light text-base text-black">01/01/2001</p>
+        </div>
+        <div class="flex justify-center align-center items-center flex-row gap-5">
+          <p class="font-sans font-light text-base text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+      </div>
+      <hr class="border-gray-200 w-9/12 mt-4">
+      <div class="flex items-start flex-col gap-2 px-5">
+        <div class="flex justify-center align-center items-center flex-row gap-5">
+          <p class="font-sans font-normal text-base text-black">Name</p>
+          <p class="font-sans font-light text-base text-black">01/01/2001</p>
+        </div>
+        <div class="flex justify-center align-center items-center flex-row gap-5">
+          <p class="font-sans font-light text-base text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+      </div>
+      <hr class="border-gray-200 w-9/12 mt-4">
+      <div class="flex items-start flex-col gap-2 px-5">
+        <div class="flex justify-center align-center items-center flex-row gap-5">
+          <p class="font-sans font-normal text-base text-black">Name</p>
+          <p class="font-sans font-light text-base text-black">01/01/2001</p>
+        </div>
+        <div class="flex justify-center align-center items-center flex-row gap-5">
+          <p class="font-sans font-light text-base text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+      </div>
+      <hr class="border-gray-200 w-9/12 mt-4">
+      <div class="flex items-start flex-col gap-2 px-5">
+        <div class="flex justify-center align-center items-center flex-row gap-5">
+          <p class="font-sans font-normal text-base text-black">Name</p>
+          <p class="font-sans font-light text-base text-black">01/01/2001</p>
+        </div>
+        <div class="flex justify-center align-center items-center flex-row gap-5">
+          <p class="font-sans font-light text-base text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+      </div>
     </div>
   </section>
   

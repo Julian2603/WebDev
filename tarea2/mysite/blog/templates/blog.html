@@ -90,7 +90,7 @@
   <section id="blog" class="animate-fadeInUp">
     <div class="flex flex-col items-center p-10 pl-20 space-y-8 pb-32">
       {% for article in object_list %}
-      <div class="grid grid-cols-2 bg-[#FFDDD2] rounded-3xl p-10 mx-10 w-11/12 xl:w-8/12 shadow-md transition duration-300 hover:shadow-2xl">
+      <div class="grid grid-cols-2 gap-2 bg-[#FFDDD2] rounded-3xl p-10 mx-10 w-11/12 xl:w-8/12 shadow-md transition duration-300 hover:shadow-2xl">
         <div class="flex flex-col gap-2">
           <a class="font-sans font-bold text-3xl text-black underline mb-2 underline-offset-2" href="{% url 'article-detail' article.pk %}">{{ article.title }}</a>
           <h3 class="font-sans font-bold text-2xl text-black">{{ article.author.first_name }} {{ article.author.last_name }}</h3>
