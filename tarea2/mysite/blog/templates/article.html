@@ -130,73 +130,68 @@
       });
     });
   </script>
-  <section id="coments">
-    <div class="flex flex-col gap-5 p-10 bg-[F4F3F8]">
-      <!-- insert comment box -->
+ <section id="coments">
+  <div class="flex flex-col gap-5 p-10 bg-[F4F3F8]">
       <h2 class="font-sans font-extrabold text-3xl text-[#E29578]">Comments</h2>
       <div class="flex flex-col justify-start items-start gap-5">
-        <h2 class="font-sans font-semibold text-xl text-black">Want to add something?</h2>
-        <div class="w-11/12 mb-">
-          <form>
-            <div class="grid xl:grid-cols-4 xl:gap-6">
-              <div class="relative z-0 mb-6 w-full group">
-                <input type="tel" name="floating_name" id="floating_name" class="block py-2.5 px-0 w-full text-sm text-balck bg-transparent border-0 border-b-2 border-gray-500 appearance-none focus:outline-none focus:ring-0 focus:border-[#006D77] peer" placeholder=" " required />
-                <label for="floating_phone" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-[#006D77] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name</label>
-              </div>
-              <div class="col-span-2 relative z-0 mb-6 w-full group ">
-                <input type="text" name="floating_comment" id="floating_comment" class="block py-2.5 px-0 w-full text-sm text-balck bg-transparent border-0 border-b-2 border-gray-500 appearance-none focus:outline-none focus:ring-0 focus:border-[#006D77] peer" placeholder=" " required />
-                <label for="floating_company" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-[#006D77] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Write a comment</label>
-              </div>
-              <div class="">
-                <button type="submit" class="text-white bg-[#006D77] transition duration-300 shadow-lg hover:bg-[#83C5BE]/70 hover:text-gray-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-base w-full sm:w-auto px-5 py-2.5 text-center ">Add comment</button>
-              </div>
-            </div>
-          </form>
-        </div>
+          <h2 class="font-sans font-semibold text-xl text-black">Want to add something?</h2>
+          <div class="w-11/12 mb-">
+              <form id="commentForm" method="POST" action="{% url 'add-comment' %}">
+                  {% csrf_token %}
+                  <div class="grid xl:grid-cols-4 xl:gap-6">
+                      <div class="relative z-0 mb-6 w-full group">
+                          <input type="tel" name="name" id="floating_name" class="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-500 appearance-none focus:outline-none focus:ring-0 focus:border-[#006D77] peer" placeholder=" " required />
+                          <label for="floating_name" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-[#006D77] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name</label>
+                      </div>
+                      <div class="col-span-2 relative z-0 mb-6 w-full group ">
+                          <input type="text" name="comment_body" id="floating_comment" class="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-500 appearance-none focus:outline-none focus:ring-0 focus:border-[#006D77] peer" placeholder=" " required />
+                          <label for="floating_comment" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-[#006D77] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Write a comment</label>
+                      </div>
+                      <div class="">
+                          <button type="submit" class="text-white bg-[#006D77] transition duration-300 shadow-lg hover:bg-[#83C5BE]/70 hover:text-gray-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-base w-full sm:w-auto px-5 py-2.5 text-center">Add comment</button>
+                      </div>
+                  </div>
+                  <input type="hidden" name="article_id" value="{{ article.id }}">
+              </form>
+          </div>
       </div>
-      <!-- comments -->
+
+      {% for comment in comments %}
       <hr class="border-gray-200 w-11/12 mt-4">
       <div class="flex items-start flex-col gap-2 px-5">
-        <div class="flex justify-center align-center items-center flex-row gap-5">
-          <p class="font-sans font-normal text-base text-black">Name</p>
-          <p class="font-sans font-light text-base text-black">01/01/2001</p>
-        </div>
-        <div class="flex justify-center align-center items-center flex-row gap-5">
-          <p class="font-sans font-light text-base text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </div>
+          <div class="flex justify-center align-center items-center flex-row gap-5">
+              <p class="font-sans font-bold text-base text-black">{{ comment.name }}</p>
+              <p class="font-sans font-light text-base text-black">{{ comment.comment_date|date:"Y-m-d" }}</p>
+          </div>
+          <div class="flex justify-center align-center items-center flex-row gap-5">
+              <p class="font-sans font-light text-base text-black">{{ comment.comment_body }}</p>
+          </div>
       </div>
-      <hr class="border-gray-200 w-9/12 mt-4">
-      <div class="flex items-start flex-col gap-2 px-5">
-        <div class="flex justify-center align-center items-center flex-row gap-5">
-          <p class="font-sans font-normal text-base text-black">Name</p>
-          <p class="font-sans font-light text-base text-black">01/01/2001</p>
-        </div>
-        <div class="flex justify-center align-center items-center flex-row gap-5">
-          <p class="font-sans font-light text-base text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </div>
-      </div>
-      <hr class="border-gray-200 w-9/12 mt-4">
-      <div class="flex items-start flex-col gap-2 px-5">
-        <div class="flex justify-center align-center items-center flex-row gap-5">
-          <p class="font-sans font-normal text-base text-black">Name</p>
-          <p class="font-sans font-light text-base text-black">01/01/2001</p>
-        </div>
-        <div class="flex justify-center align-center items-center flex-row gap-5">
-          <p class="font-sans font-light text-base text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </div>
-      </div>
-      <hr class="border-gray-200 w-9/12 mt-4">
-      <div class="flex items-start flex-col gap-2 px-5">
-        <div class="flex justify-center align-center items-center flex-row gap-5">
-          <p class="font-sans font-normal text-base text-black">Name</p>
-          <p class="font-sans font-light text-base text-black">01/01/2001</p>
-        </div>
-        <div class="flex justify-center align-center items-center flex-row gap-5">
-          <p class="font-sans font-light text-base text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+      {% endfor %}
+  </div>
+</section>
+
+<script>
+  document.getElementById('commentForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      var form = event.target;
+      var formData = new FormData(form);
+      fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+              'X-Requested-With': 'XMLHttpRequest',
+              'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+          }
+      }).then(response => response.json()).then(data => {
+          if (data.error) {
+              alert(data.error);
+          } else {
+              location.reload();
+          }
+      }).catch(error => console.error('Error:', error));
+  });
+</script>
   
    <!-- FOOTER -->
    <div class="p-5 px-20 bg-[#006D77] grid grid-cols-1 md:grid-cols-3 gap-7 shrink-0">

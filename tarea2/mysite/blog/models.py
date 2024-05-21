@@ -20,3 +20,6 @@ class Comment(models.Model):
   article = models.ForeignKey(Article, on_delete=models.CASCADE)
   comment_date = models.DateField(default=datetime.date.today)
   comment_body = models.TextField()
+
+  def __str__(self):
+    return self.name + ' | ' + str(self.article.title)
