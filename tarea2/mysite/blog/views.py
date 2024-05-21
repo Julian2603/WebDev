@@ -1,11 +1,10 @@
-# views.py
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.views.generic import ListView, DetailView
-from .models import Article, Comment
-from .forms import CommentForm
+from .models import Article, Comment, Subscription
+from .forms import CommentForm, SubscriptionForm
 from django.views.decorators.http import require_POST
-
+from django.core.mail import send_mail
 class BlogView(ListView):
     model = Article
     template_name = 'blog.html'
@@ -45,3 +44,20 @@ def add_comment(request):
             'comment_body': comment.comment_body
         })
     return JsonResponse({'error': 'Invalid form submission'}, status=400)
+
+def subscribe(request):
+  if request.method == 'POST':
+    form = SubscriptionForm(request.POST)
+    if form.is_valid():
+      form.save()
+      # Enviar correo de confirmación
+      send_mail(
+        'Subscription Confirmation',
+        'Thank you for subscribing to our blog!',
+        'from@example.com',
+        [form.cleaned_data['email']],
+        fail_silently=False,
+      )
+  else:
+    form = SubscriptionForm()
+  return render(request, 'subscribe.html', {'form': form})

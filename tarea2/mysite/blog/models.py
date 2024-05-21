@@ -23,3 +23,15 @@ class Comment(models.Model):
 
   def __str__(self):
     return self.name + ' | ' + str(self.article.title)
+  
+class Subscription(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    FREQUENCY_CHOICES = [
+        ('immediate', 'An email at the moment a new article gets published'),
+        ('monthly', 'A monthly email regarding the summary of the month\'s new articles'),
+    ]
+    frequency = models.CharField(max_length=10, choices=FREQUENCY_CHOICES)
+
+    def __str__(self):
+        return self.name + ' | ' + self.email
