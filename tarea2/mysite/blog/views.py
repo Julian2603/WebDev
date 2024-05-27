@@ -5,9 +5,60 @@ from .models import Article, Comment, Subscription
 from .forms import CommentForm, SubscriptionForm
 from django.views.decorators.http import require_POST
 from django.core.mail import send_mail
+
+from django.views.generic import ListView
+from .models import Article
+
 class BlogView(ListView):
     model = Article
     template_name = 'blog.html'
+    context_object_name = 'articles'
+    paginate_by = 5  # Default pagination
+
+    def get_queryset(self):
+        order_by = self.request.GET.get('order_by', 'date')
+        count = int(self.request.GET.get('count', self.paginate_by))
+        query = self.request.GET.get('query', '')
+
+        if query:
+            filtered_articles = Article.objects.filter(title__icontains=query)
+        else:
+            filtered_articles = Article.objects.all()
+
+        if order_by == 'likes':
+            filtered_articles = filtered_articles.order_by('-likes')
+        else:
+            filtered_articles = filtered_articles.order_by('-date')
+
+        return filtered_articles[:count]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        order_by = self.request.GET.get('order_by', 'date')
+        count = int(self.request.GET.get('count', self.paginate_by))
+        query = self.request.GET.get('query', '')
+
+        if query:
+            filtered_articles = Article.objects.filter(title__icontains=query)
+        else:
+            filtered_articles = Article.objects.all()
+
+        if order_by == 'likes':
+            filtered_articles = filtered_articles.order_by('-likes')
+        else:
+            filtered_articles = filtered_articles.order_by('-date')
+
+        filtered_articles = filtered_articles[:count]
+
+        remaining_articles = Article.objects.exclude(id__in=filtered_articles.values_list('id', flat=True))
+
+        context['filtered_articles'] = filtered_articles
+        context['remaining_articles'] = remaining_articles
+        context['order_by'] = order_by
+        context['count'] = count
+        context['query'] = query
+        return context
+
 
 class ArticleDetailView(DetailView):
     model = Article
