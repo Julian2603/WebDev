@@ -12,11 +12,31 @@
     {% tailwind_css %}
 </head>
 <body>
-    <h1 class="font-sans font-normal text-3xl"> My google OAuth Project </h1>
-    {% if user.is_authenticated %}
-        <p>Welcome. You are logged in as {{user.username}} </p>
-    {% else %}
-        <a href="{% provider_login_url 'google' %}?next=/" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">Login with Google</a>
-    {% endif %}
-</body>
+    <!-- NAVBAR -->
+<!-- Navbar HTML -->
+    <div class="pt-10 pb-2 flex justify-between px-10 items-center">
+        <div class="flex justify-start">
+            <img src="{% static 'imgs/logo.svg' %}" alt="Logo">
+        </div>
+    </div>
+  <div class="flex justify-center">
+    <hr class="border-[#BEE7E2] w-3/4 mt-4">
+  </div>
+  <div class="flex justify-center items-center p-10 px-15">
+    <div class="flex flex-col space-y-10">
+        <h1 class="font-sans font-extrabold text-5xl text-[#0097A5]">Log-in</h1>
+        {% load socialaccount %}
+        <div class="">
+            {% if user.is_authenticated %}
+              <p>You are signed in as {{ user.email }}</p>
+              <a href="{% url 'account_logout' %}">Logout</a>
+            {% else %}
+              <a href="{% provider_login_url 'google' %}?next=/">Login with Google</a>
+            {% endif %}
+        </div>
+    </div>
+  </div>
+    
+    
+  </body>  
 </html>

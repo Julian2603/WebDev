@@ -1,11 +1,4 @@
-<!-- <a href="{% url 'blog' %}">Blog</a>
-<h1>{{ article.title }}</h1>
-<small>By: {{ article.author.first_name }} {{ article.author.last_name }}</small>
-<br>
-<hr>
-<br>
-{{ article.body }} -->
-
+{% load socialaccount %} 
 {% load static tailwind_tags %}
 <html lang="en" class="scroll-smooth">
   <head>
@@ -18,7 +11,7 @@
     {% tailwind_css %}
 </head>
 <body>
-  <!-- NAVBAR -->
+<!-- NAVBAR -->
 <!-- Navbar HTML -->
 <div class="pt-10 pb-2 flex justify-between px-10 items-center">
   <div class="flex justify-start">
@@ -27,9 +20,28 @@
 
   <div class="hidden md:flex flex-row justify-center space-x-10">
       <a href="{% url 'home' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">HOME</a>
-      <a href="#" class="font-sans font-normal text-3xl transition duration-300 decoration-[#FD8C62] underline underline-offset-8">BLOG</a>
+      <a href="{% url 'blog' %}" class="font-sans font-normal text-3xl transition duration-300 decoration-[#FD8C62] underline underline-offset-8">BLOG</a>
       <a href="{% url 'resume' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">RESUME</a>
       <a href="{% url 'about' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">ABOUT</a>
+      
+      {% if user.is_authenticated %}
+      <div class="relative">
+        <button id="profile-btn" class="flex items-center space-x-2 focus:outline-none">
+            <i class="fas fa-user-circle text-3xl"></i>
+        </button>
+        <div id="profile-menu" class="hidden absolute right-0 mt-2 w-auto bg-white border border-gray-200 rounded-lg shadow-lg">
+            <div class="py-2 px-4">
+                <p class="text-gray-900">{{ user.first_name }} {{ user.last_name }}</p>
+                <p class="text-gray-500">{{ user.email }}</p>
+            </div>
+            <div class="py-2 border-t border-gray-200 hover:bg-gray-100">
+                <a href="{% url 'account_logout' %}" class="block px-4 py-2 text-gray-700">Log out</a>
+            </div>
+        </div>
+    </div>
+      {% else %}
+      <a href="{% provider_login_url 'google' %}?next=/" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">LOG-IN</a>
+      {% endif %}
   </div>
 
   <!-- Hamburger Icon -->
@@ -45,22 +57,41 @@
 <!-- Mobile Menu -->
 <div id="menu" class="hidden md:hidden flex flex-col space-y-4 mt-4 p-10 bg-white shadow-lg absolute w-full left-0 top-20 z-50">
   <a href="{% url 'home' %}" class="font-sans font-normal text-3xl transition duration-300 decoration-[#FD8C62] hover:text-[#FD8C62]">HOME</a>
-  <a href="#" class="font-sans font-normal text-3xl transition duration-300 text-[#FD8C62]">BLOG</a>
+  <a href="{% url 'blog' %}" class="font-sans font-normal text-3xl transition duration-300 text-[#FD8C62]">BLOG</a>
   <a href="{% url 'resume' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">RESUME</a>
   <a href="{% url 'about' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">ABOUT</a>
+  {% if user.is_authenticated %}
+  <a href="{% url 'account_logout' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">LOG-OUT</a>
+  {% else %}
+  <a href="{% provider_login_url 'google' %}?next=/" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">LOG-IN</a>
+  {% endif %}
 </div>
-
-<div class="flex justify-center">
-  <hr class="border-[#BEE7E2] w-3/4 mt-4">
-</div>
-
-<!-- JavaScript -->
+</style>
 <script>
   document.getElementById('menu-btn').addEventListener('click', function() {
-      var menu = document.getElementById('menu');
-      menu.classList.toggle('hidden');
+    var menu = document.getElementById('menu');
+    menu.classList.toggle('hidden');
   });
-</script> 
+  
+  document.getElementById('profile-btn').addEventListener('click', function(event) {
+        var profileMenu = document.getElementById('profile-menu');
+        profileMenu.classList.toggle('hidden');
+
+        // Ensure the profile menu opens towards the left
+        profileMenu.style.right = '0';
+        profileMenu.style.left = 'auto';
+        profileMenu.style.top = '100%';
+    });
+
+    // Close the profile menu if clicked outside
+    window.addEventListener('click', function(event) {
+        var profileMenu = document.getElementById('profile-menu');
+        var profileBtn = document.getElementById('profile-btn');
+        if (event.target !== profileBtn && !profileBtn.contains(event.target) && !profileMenu.contains(event.target)) {
+            profileMenu.classList.add('hidden');
+        }
+    });
+</script>
   <!-- {% block content %}
   {% endblock content %} -->
 
@@ -83,10 +114,15 @@
             <i class="fa-regular fa-clock"></i>
             <h2 class="font-sans font-semibold text-lg text-black"> Reading time: {{ article.reading_time }} min</h2>
           </div>
-          <button id="like-button" class="flex flex-row gap-2 justify-start align-center items-center focus:outline-none" data-article-id="{{ article.id }}">
-            <i id="like-icon" class="fa-regular fa-heart"></i>
-            <h2 id="like-count" class="font-sans font-normal text-lg text-black">{{ article.likes }} likes</h2>
-          </button>
+          {% if user.is_authenticated %}
+            <button id="like-button" class="flex flex-row gap-2 justify-start align-center items-center focus:outline-none" data-article-id="{{ article.id }}">
+              <i id="like-icon" class="fa-regular fa-heart"></i>
+              <h2 id="like-count" class="font-sans font-normal text-lg text-black">{{ article.likes }} likes</h2>
+            </button>
+          {% else %}
+            <p class="font-sans font-normal text-lg text-black">You must be logged in to like this article.</p>
+          {% endif %}
+
         </div>
       </div>
       <hr class="flex justify-center align-center items-center border-2 roundes-full border-[#BEE7E2] w-full mt-4">
@@ -130,46 +166,52 @@
       });
     });
   </script>
- <section id="coments">
+ <section id="comments">
   <div class="flex flex-col gap-5 p-10 bg-[F4F3F8]">
-      <h2 class="font-sans font-extrabold text-3xl text-[#E29578]">Comments</h2>
-      <div class="flex flex-col justify-start items-start gap-5">
-          <h2 class="font-sans font-semibold text-xl text-black">Want to add something?</h2>
-          <div class="w-11/12 mb-">
-              <form id="commentForm" method="POST" action="{% url 'add-comment' %}">
-                  {% csrf_token %}
-                  <div class="grid xl:grid-cols-4 xl:gap-6">
-                      <div class="relative z-0 mb-6 w-full group">
-                          <input type="tel" name="name" id="floating_name" class="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-500 appearance-none focus:outline-none focus:ring-0 focus:border-[#006D77] peer" placeholder=" " required />
-                          <label for="floating_name" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-[#006D77] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name</label>
-                      </div>
-                      <div class="col-span-2 relative z-0 mb-6 w-full group ">
-                          <input type="text" name="comment_body" id="floating_comment" class="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-500 appearance-none focus:outline-none focus:ring-0 focus:border-[#006D77] peer" placeholder=" " required />
-                          <label for="floating_comment" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-[#006D77] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Write a comment</label>
-                      </div>
-                      <div class="">
-                          <button type="submit" class="text-white bg-[#006D77] transition duration-300 shadow-lg hover:bg-[#83C5BE]/70 hover:text-gray-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-base w-full sm:w-auto px-5 py-2.5 text-center">Add comment</button>
-                      </div>
-                  </div>
-                  <input type="hidden" name="article_id" value="{{ article.id }}">
-              </form>
-          </div>
+    <h2 class="font-sans font-extrabold text-3xl text-[#E29578]">Comments</h2>
+    <div class="flex flex-col justify-start items-start gap-5">
+      <h2 class="font-sans font-semibold text-xl text-black">Want to add something?</h2>
+      <div class="w-11/12 mb-4">
+        {% if user.is_authenticated %}
+          <form id="commentForm" method="POST" action="{% url 'add-comment' %}">
+            {% csrf_token %}
+            <div class="grid xl:grid-cols-4 xl:gap-6">
+              <div class="relative z-0 mb-6 w-full group">
+                <input type="tel" name="name" id="floating_name" class="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-500 appearance-none focus:outline-none focus:ring-0 focus:border-[#006D77] peer" placeholder=" " required />
+                <label for="floating_name" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-[#006D77] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name</label>
+              </div>
+              <div class="col-span-2 relative z-0 mb-6 w-full group ">
+                <input type="text" name="comment_body" id="floating_comment" class="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-500 appearance-none focus:outline-none focus:ring-0 focus:border-[#006D77] peer" placeholder=" " required />
+                <label for="floating_comment" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-[#006D77] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Write a comment</label>
+              </div>
+              <div class="">
+                <button type="submit" class="text-white bg-[#006D77] transition duration-300 shadow-lg hover:bg-[#83C5BE]/70 hover:text-gray-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-base w-full sm:w-auto px-5 py-2.5 text-center">Add comment</button>
+              </div>
+            </div>
+            <input type="hidden" name="article_id" value="{{ article.id }}">
+          </form>
+        {% else %}
+          <p class="font-sans font-normal text-lg text-black">You must be logged in to add a comment.</p>
+          <a href="{% url 'login' %}" class="font-sans font-normal text-lg text-[#006D77] hover:underline">Log in</a>
+        {% endif %}
       </div>
+    </div>
 
-      {% for comment in comments %}
-      <hr class="border-gray-200 w-11/12 mt-4">
-      <div class="flex items-start flex-col gap-2 px-5">
-          <div class="flex justify-center align-center items-center flex-row gap-5">
-              <p class="font-sans font-bold text-base text-black">{{ comment.name }}</p>
-              <p class="font-sans font-light text-base text-black">{{ comment.comment_date|date:"Y-m-d" }}</p>
-          </div>
-          <div class="flex justify-center align-center items-center flex-row gap-5">
-              <p class="font-sans font-light text-base text-black">{{ comment.comment_body }}</p>
-          </div>
+    {% for comment in comments %}
+    <hr class="border-gray-200 w-11/12 mt-4">
+    <div class="flex items-start flex-col gap-2 px-5">
+      <div class="flex justify-center align-center items-center flex-row gap-5">
+        <p class="font-sans font-bold text-base text-black">{{ comment.name }}</p>
+        <p class="font-sans font-light text-base text-black">{{ comment.comment_date|date:"Y-m-d" }}</p>
       </div>
-      {% endfor %}
+      <div class="flex justify-center align-center items-center flex-row gap-5">
+        <p class="font-sans font-light text-base text-black">{{ comment.comment_body }}</p>
+      </div>
+    </div>
+    {% endfor %}
   </div>
 </section>
+
 
 <script>
   document.getElementById('commentForm').addEventListener('submit', function(event) {

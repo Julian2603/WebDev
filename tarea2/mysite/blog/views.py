@@ -5,7 +5,7 @@ from .models import Article, Comment, Subscription
 from .forms import CommentForm, SubscriptionForm
 from django.views.decorators.http import require_POST
 from django.core.mail import send_mail
-
+from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 from .models import Article
 
@@ -74,6 +74,7 @@ def Subscribe(request):
   return render(request, 'subscribe.html', {})
 
 @require_POST
+@login_required
 def like_article(request):
     article_id = request.POST.get('article_id')
     article = get_object_or_404(Article, id=article_id)
@@ -82,6 +83,7 @@ def like_article(request):
     return JsonResponse({'likes': article.likes})
 
 @require_POST
+@login_required
 def add_comment(request):
     form = CommentForm(request.POST)
     if form.is_valid():
