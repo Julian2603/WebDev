@@ -122,7 +122,9 @@
           {% else %}
             <p class="font-sans font-normal text-lg text-black">You must be logged in to like this article.</p>
           {% endif %}
-
+          {% if user.is_authenticated and user == article.author %}
+          <button type="button" class="text-red-500 delete-article-button" data-article-id="{{ article.id }}">Eliminar Artículo</button>
+          {% endif %}
         </div>
       </div>
       <hr class="flex justify-center align-center items-center border-2 roundes-full border-[#BEE7E2] w-full mt-4">
@@ -137,6 +139,35 @@
       </div>
     </div>
   </section>
+  <script>
+    document.querySelectorAll('.delete-article-button').forEach(button => {
+        button.addEventListener('click', function() {
+            if (!confirm('¿Estás seguro de que deseas eliminar este artículo?')) {
+                return;
+            }
+            var articleId = this.getAttribute('data-article-id');
+            var csrfToken = '{{ csrf_token }}';
+            $.ajax({
+                type: 'POST',
+                url: '{% url "delete_article" 0 %}'.replace('0', articleId),
+                data: {
+                    'csrfmiddlewaretoken': csrfToken
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        window.location.href = response.redirect_url;
+                    } else {
+                        alert('Failed to delete article. Server responded with: ' + response.status);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert('Error deleting article: ' + xhr.responseText);
+                }
+            });
+        });
+    });
+    </script>
+    
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     document.getElementById('like-button').addEventListener('click', function() {
@@ -199,7 +230,7 @@
 
     {% for comment in comments %}
     <hr class="border-gray-200 w-11/12 mt-4">
-    <div class="flex items-start flex-col gap-2 px-5">
+    <div class="flex items-start flex-col gap-2 px-5" id="comment-{{ comment.id }}">
       <div class="flex justify-center align-center items-center flex-row gap-5">
         <p class="font-sans font-bold text-base text-black">{{ comment.name }}</p>
         <p class="font-sans font-light text-base text-black">{{ comment.comment_date|date:"Y-m-d" }}</p>
@@ -207,8 +238,37 @@
       <div class="flex justify-center align-center items-center flex-row gap-5">
         <p class="font-sans font-light text-base text-black">{{ comment.comment_body }}</p>
       </div>
+      <button type="button" class="text-red-500 delete-comment-button" data-comment-id="{{ comment.id }}">Eliminar</button>
     </div>
     {% endfor %}
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      document.querySelectorAll('.delete-comment-button').forEach(button => {
+        button.addEventListener('click', function() {
+          var commentId = this.getAttribute('data-comment-id');
+          var csrfToken = '{{ csrf_token }}';
+          $.ajax({
+            type: 'POST',
+            url: '{% url "delete_comment" 0 %}'.replace('0', commentId),
+            data: {
+              'csrfmiddlewaretoken': csrfToken
+            },
+            success: function(response) {
+              if (response.status === 'success') {
+                document.getElementById('comment-' + commentId).remove();
+              } else {
+                alert('Failed to delete comment. Server responded with: ' + response.status);
+              }
+            },
+            error: function(xhr, status, error) {
+              alert('Error deleting comment: ' + xhr.responseText);
+            }
+          });
+        });
+      });
+    </script>
+         
   </div>
 </section>
 

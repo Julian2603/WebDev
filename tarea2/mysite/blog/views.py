@@ -8,6 +8,9 @@ from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 from .models import Article
+from django.contrib import messages
+from django.urls import reverse
+
 
 class BlogView(ListView):
     model = Article
@@ -114,3 +117,18 @@ def subscribe(request):
   else:
     form = SubscriptionForm()
   return render(request, 'subscribe.html', {'form': form})
+
+def delete_comment(request, comment_id):
+    if request.method == 'POST':
+        comment = get_object_or_404(Comment, id=comment_id)
+        comment.delete()
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'failed'}, status=400)
+
+def delete_article(request, article_id):
+    if request.method == 'POST':
+        article = get_object_or_404(Article, id=article_id)
+        article.delete()
+        return JsonResponse({'status': 'success', 'redirect_url':reverse('blog')})
+    return JsonResponse({'status': 'failed'}, status=400)
+
