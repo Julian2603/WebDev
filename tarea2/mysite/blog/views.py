@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Group
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.views.generic import ListView, DetailView
@@ -54,27 +55,53 @@ class BlogView(ListView):
         filtered_articles = filtered_articles[:count]
 
         remaining_articles = Article.objects.exclude(id__in=filtered_articles.values_list('id', flat=True))
+        user = self.request.user
+        user_is_admin = user.is_authenticated and user.groups.filter(name='admin').exists()
+        user_is_moderator = user.is_authenticated and user.groups.filter(name='moderator').exists()
+        user_is_subscriber = user.is_authenticated and user.groups.filter(name='subscriber').exists()
 
+        context['user_is_admin'] = user_is_admin
+        context['user_is_moderator'] = user_is_moderator
+        context['user_is_subscriber'] = user_is_subscriber
         context['filtered_articles'] = filtered_articles
         context['remaining_articles'] = remaining_articles
         context['order_by'] = order_by
         context['count'] = count
         context['query'] = query
         return context
-
-
+    
 class ArticleDetailView(DetailView):
     model = Article
     template_name = 'article.html'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['comments'] = Comment.objects.filter(article=self.object).order_by('-comment_date')
+        article = self.object  # El artículo actual
+
+        user = self.request.user
+        user_is_admin = user.is_authenticated and user.groups.filter(name='admin').exists()
+        user_is_moderator = user.is_authenticated and user.groups.filter(name='moderator').exists()
+        user_is_subscriber = user.is_authenticated and user.groups.filter(name='subscriber').exists()
+
+        context['comments'] = Comment.objects.filter(article=article).order_by('-comment_date')
         context['form'] = CommentForm()
+        context['user_is_admin'] = user_is_admin
+        context['user_is_moderator'] = user_is_moderator
+        context['user_is_subscriber'] = user_is_subscriber
         return context
+
     
 def Subscribe(request):
-  return render(request, 'subscribe.html', {})
+    user = request.user
+    user_is_admin = user.is_authenticated and user.groups.filter(name='admin').exists()
+    user_is_moderator = user.is_authenticated and user.groups.filter(name='moderator').exists()
+    user_is_subscriber = user.is_authenticated and user.groups.filter(name='subscriber').exists()
+    context = {
+        'user_is_admin': user_is_admin,
+        'user_is_moderator': user_is_moderator,
+        'user_is_subscriber': user_is_subscriber,
+    }
+    return render(request, 'subscribe.html', context)
 
 @require_POST
 @login_required
