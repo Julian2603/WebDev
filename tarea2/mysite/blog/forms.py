@@ -4,7 +4,7 @@ from .models import Comment, Subscription
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ['name', 'comment_body']
+        fields = ['comment_body']
 
 class SubscriptionForm(forms.ModelForm):
     class Meta:

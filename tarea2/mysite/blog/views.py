@@ -120,6 +120,7 @@ def add_comment(request):
         comment = form.save(commit=False)
         article_id = request.POST.get('article_id')
         comment.article = get_object_or_404(Article, id=article_id)
+        comment.name = f"{request.user.first_name} {request.user.last_name}" 
         comment.save()
         return JsonResponse({
             'name': comment.name,
