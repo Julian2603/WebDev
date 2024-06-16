@@ -28,5 +28,7 @@ urlpatterns = [
 
     path('login/', include('auth_app.urls')),
     path('accounts/', include('allauth.urls')),
+
+    path('useractivitylogs/', include('useractivitylogs.urls')),
 ]
 

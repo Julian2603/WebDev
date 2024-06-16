@@ -11,7 +11,7 @@ from django.views.generic import ListView
 from .models import Article
 from django.contrib import messages
 from django.urls import reverse
-
+from useractivitylogs.models import UserActionLog
 
 class BlogView(ListView):
     model = Article
@@ -110,6 +110,7 @@ def like_article(request):
     article = get_object_or_404(Article, id=article_id)
     article.likes += 1
     article.save()
+    UserActionLog.objects.create(user=request.user, action='like', details=f"Liked article {article_id}")
     return JsonResponse({'likes': article.likes})
 
 @require_POST
@@ -122,6 +123,9 @@ def add_comment(request):
         comment.article = get_object_or_404(Article, id=article_id)
         comment.name = f"{request.user.first_name} {request.user.last_name}" 
         comment.save()
+
+        UserActionLog.objects.create(user=request.user, action='comment_add', details=f"Commented on article {article_id}")
+
         return JsonResponse({
             'name': comment.name,
             'comment_date': comment.comment_date.strftime('%Y-%m-%d'),
@@ -133,15 +137,17 @@ def subscribe(request):
   if request.method == 'POST':
     form = SubscriptionForm(request.POST)
     if form.is_valid():
-      form.save()
-      # Enviar correo de confirmación
-      send_mail(
+        form.save()
+        UserActionLog.objects.create(user=request.user, action='subscribe', details="Subscribed to the blog")
+        # Enviar correo de confirmación
+        send_mail(
         'Subscription Confirmation',
         'Thank you for subscribing to our blog!',
         'from@example.com',
         [form.cleaned_data['email']],
         fail_silently=False,
-      )
+        )
+
   else:
     form = SubscriptionForm()
   return render(request, 'subscribe.html', {'form': form})
@@ -150,6 +156,9 @@ def delete_comment(request, comment_id):
     if request.method == 'POST':
         comment = get_object_or_404(Comment, id=comment_id)
         comment.delete()
+
+        UserActionLog.objects.create(user=request.user, action='comment_delete', details=f"Deleted comment {comment_id}")
+
         return JsonResponse({'status': 'success'})
     return JsonResponse({'status': 'failed'}, status=400)
 
@@ -157,6 +166,9 @@ def delete_article(request, article_id):
     if request.method == 'POST':
         article = get_object_or_404(Article, id=article_id)
         article.delete()
+
+        UserActionLog.objects.create(user=request.user, action='post_delete', details=f"Deleted post {article_id}")
+
         return JsonResponse({'status': 'success', 'redirect_url':reverse('blog')})
     return JsonResponse({'status': 'failed'}, status=400)
 

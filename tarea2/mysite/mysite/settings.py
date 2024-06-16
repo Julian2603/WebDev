@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'resume',
     'auth_app',
 
+    'useractivitylogs.apps.UserActivityLogsConfig',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',

@@ -973,6 +973,10 @@ select {
   display: flex;
 }
 
+.table {
+  display: table;
+}
+
 .grid {
   display: grid;
 }
@@ -999,10 +1003,6 @@ select {
 
 .h-screen {
   height: 100vh;
-}
-
-.h-48 {
-  height: 12rem;
 }
 
 .w-10\/12 {
@@ -1043,10 +1043,6 @@ select {
 
 .w-full {
   width: 100%;
-}
-
-.w-48 {
-  width: 12rem;
 }
 
 .max-w-md {
@@ -2022,10 +2018,6 @@ select {
     margin-left: 3rem;
   }
 
-  .md\:mt-2 {
-    margin-top: 0.5rem;
-  }
-
   .md\:flex {
     display: flex;
   }
@@ -2040,10 +2032,6 @@ select {
 
   .md\:w-auto {
     width: auto;
-  }
-
-  .md\:w-64 {
-    width: 16rem;
   }
 
   .md\:max-w-2xl {
@@ -2082,36 +2070,12 @@ select {
     gap: 2.5rem;
   }
 
-  .md\:rounded-lg {
-    border-radius: 0.5rem;
-  }
-
-  .md\:border {
-    border-width: 1px;
-  }
-
-  .md\:border-gray-200 {
-    --tw-border-opacity: 1;
-    border-color: rgb(229 231 235 / var(--tw-border-opacity));
-  }
-
-  .md\:bg-white {
-    --tw-bg-opacity: 1;
-    background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-  }
-
   .md\:pl-20 {
     padding-left: 5rem;
   }
 
   .md\:text-right {
     text-align: right;
-  }
-
-  .md\:shadow-lg {
-    --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
-    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
   }
 }
 
