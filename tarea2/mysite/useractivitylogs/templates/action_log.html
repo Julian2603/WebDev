@@ -65,17 +65,36 @@
 </div>
 
 <!-- Mobile Menu -->
-<div id="menu" class="hidden md:hidden flex flex-col space-y-4 mt-4 p-10 bg-white shadow-lg absolute w-full left-0 top-20 z-50">
-  <a href="{% url 'home' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">HOME</a>
-  <a href="{% url 'blog' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">BLOG</a>
-  <a href="{% url 'resume' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">RESUME</a>
-  <a href="{% url 'about' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">ABOUT</a>
-  {% if user.is_authenticated %}
-  <a href="{% url 'account_logout' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">LOG-OUT</a>
-  {% else %}
-  <a href="{% url 'login' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">LOG-IN</a>
-  {% endif %}
-</div>
+  <div id="menu" class="hidden md:hidden flex flex-col space-y-4 mt-4 p-10 bg-white shadow-lg absolute w-full left-0 top-20 z-50">
+    {% if user.is_authenticated %}
+      <p class="font-sans font-semibold text-3xl text-gray-900">{{ user.first_name }} {{ user.last_name }}</p>
+      <p class="font-sans font-normal text-xl text-gray-600">
+      {% if context.user_is_admin %}
+        Admin
+      {% elif context.user_is_moderator %}
+        Moderator
+      {% elif context.user_is_subscriber %}
+        Subscriber
+      {% endif %}
+      </p>
+      <p class="font-sans font-normal text-xl text-gray-500">{{ user.email }}</p>
+      <hr class="border-gray-200 w-11/12 mt-4">
+    {% endif %}
+    <a href="{% url 'home' %}" class="font-sans font-medium text-2xl transition duration-300 hover:text-[#FD8C62]">HOME</a>
+    <a href="{% url 'blog' %}" class="font-sans font-medium text-2xl transition duration-300 hover:text-[#FD8C62]">BLOG</a>
+    <a href="{% url 'resume' %}" class="font-sans font-medium text-2xl transition duration-300 hover:text-[#FD8C62]">RESUME</a>
+    <a href="{% url 'about' %}" class="font-sans font-medium text-2xl transition duration-300 hover:text-[#FD8C62]">ABOUT</a>
+    {% if user.is_authenticated %}
+      {% if context.user_is_admin %} 
+      <a href=# class="font-sans font-medium text-2xl transition duration-300 text-[#FD8C62]">ACTION LOG</a>
+      {% endif %}
+      <hr class="border-gray-200 w-11/12 mt-4">
+      <a href="{% url 'account_logout' %}" class="font-sans font-medium text-2xl transition duration-300 hover:text-[#FD8C62]">LOG-OUT</a>
+    {% else %}
+      <hr class="border-gray-200 w-11/12 mt-4">
+      <a href="{% provider_login_url 'google' %}?next=/" class="font-sans font-medium text-2xl transition duration-300 hover:text-[#FD8C62]">LOG-IN</a>
+    {% endif %}
+  </div>
 <script>
   document.getElementById('menu-btn').addEventListener('click', function() {
     var menu = document.getElementById('menu');

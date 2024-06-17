@@ -1434,10 +1434,6 @@ select {
   padding: 1rem;
 }
 
-.p-40 {
-  padding: 10rem;
-}
-
 .p-5 {
   padding: 1.25rem;
 }
@@ -1507,11 +1503,6 @@ select {
   padding-bottom: 1.5rem;
 }
 
-.py-20 {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
-}
-
 .pb-12 {
   padding-bottom: 3rem;
 }
@@ -1566,10 +1557,6 @@ select {
 
 .pt-5 {
   padding-top: 1.25rem;
-}
-
-.pt-0 {
-  padding-top: 0px;
 }
 
 .text-left {

@@ -134,23 +134,32 @@ def add_comment(request):
     return JsonResponse({'error': 'Invalid form submission'}, status=400)
 
 def subscribe(request):
-  if request.method == 'POST':
-    form = SubscriptionForm(request.POST)
-    if form.is_valid():
-        form.save()
-        UserActionLog.objects.create(user=request.user, action='subscribe', details="Subscribed to the blog")
-        # # Enviar correo de confirmación
-        # send_mail(
-        # 'Subscription Confirmation',
-        # 'Thank you for subscribing to our blog!',
-        # 'from@example.com',
-        # [form.cleaned_data['email']],
-        # fail_silently=False,
-        # )
+    user = request.user
+    user_is_admin = user.is_authenticated and user.groups.filter(name='admin').exists()
+    user_is_moderator = user.is_authenticated and user.groups.filter(name='moderator').exists()
+    user_is_subscriber = user.is_authenticated and user.groups.filter(name='subscriber').exists()
+    context = {
+        'user_is_admin': user_is_admin,
+        'user_is_moderator': user_is_moderator,
+        'user_is_subscriber': user_is_subscriber,
+    }
+    if request.method == 'POST':
+        form = SubscriptionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            UserActionLog.objects.create(user=request.user, action='subscribe', details="Subscribed to the blog")
+            # # Enviar correo de confirmación
+            # send_mail(
+            # 'Subscription Confirmation',
+            # 'Thank you for subscribing to our blog!',
+            # 'from@example.com',
+            # [form.cleaned_data['email']],
+            # fail_silently=False,
+            # )
 
-  else:
-    form = SubscriptionForm()
-  return render(request, 'subscribe.html', {'form': form})
+    else:
+        form = SubscriptionForm()
+    return render(request, 'subscribe.html', {'form': form, 'context': context})
 
 def delete_comment(request, comment_id):
     if request.method == 'POST':
