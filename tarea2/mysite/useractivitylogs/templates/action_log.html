@@ -1,29 +1,165 @@
-<!DOCTYPE html>
-<html>
+{% load socialaccount %} 
+{% load static tailwind_tags %}
+<html lang="en" class="scroll-smooth">
 <head>
-    <title>User Action Log</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://kit.fontawesome.com/288840f052.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    {% load static %}
+    {% tailwind_css %}
 </head>
 <body>
-    <h1>User Action Log</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>User</th>
-                <th>Action</th>
-                <th>Timestamp</th>
-                <th>Details</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for log in logs %}
-            <tr>
-                <td>{{ log.user.username }}</td>
-                <td>{{ log.get_action_display }}</td>
-                <td>{{ log.timestamp }}</td>
-                <td>{{ log.details }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<!-- NAVBAR -->
+<!-- Navbar HTML -->
+<div class="pt-10 pb-2 flex justify-between px-10 items-center">
+  <div class="flex justify-start">
+      <img src="{% static 'imgs/logo.svg' %}" alt="Logo">
+  </div>
+
+  <div class="hidden md:flex flex-row justify-center space-x-10">
+      <a href="{% url 'home' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62] ">HOME</a>
+      <a href="{% url 'blog' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">BLOG</a>
+      <a href="{% url 'resume' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">RESUME</a>
+      <a href="{% url 'about' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">ABOUT</a>
+      
+      {% if user.is_authenticated %}
+      <div class="relative">
+        <button id="profile-btn" class="flex items-center space-x-2 focus:outline-none">
+            <i class="fas fa-user-circle text-3xl"></i>
+        </button>
+        <div id="profile-menu" class="hidden md:absolute md:right-0 mt-2 md:w-auto bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+            <div class="flex flex-col gap-2 py-3 px-4">
+                <p class="text-gray-900 font-medium text-xl">{{ user.first_name }} {{ user.last_name }}</p>
+                <p class="text-gray-600">
+                  {% if context.user_is_admin %}
+                    Admin
+                  {% elif context.user_is_moderator %}
+                    Moderator
+                  {% elif context.user_is_subscriber %}
+                    Subscriber
+                  {% endif %}
+                </p>
+                <p class="text-gray-500 font-light">{{ user.email }}</p>
+            </div>
+            <div class="py-2 border-t border-gray-200 hover:bg-gray-100">
+                <a href="{% url 'account_logout' %}" class="block px-4 py-2 text-gray-700">Log out</a>
+            </div>
+        </div>
+      </div>
+    
+      {% else %}
+      <a href="{% provider_login_url 'google' %}?next=/" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">LOG-IN</a>
+      {% endif %}
+  </div>
+
+  <!-- Hamburger Icon -->
+  <div class="md:hidden flex items-center">
+      <button id="menu-btn" class="focus:outline-none">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+          </svg>
+      </button>
+  </div>
+</div>
+
+<!-- Mobile Menu -->
+<div id="menu" class="hidden md:hidden flex flex-col space-y-4 mt-4 p-10 bg-white shadow-lg absolute w-full left-0 top-20 z-50">
+  <a href="{% url 'home' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">HOME</a>
+  <a href="{% url 'blog' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">BLOG</a>
+  <a href="{% url 'resume' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">RESUME</a>
+  <a href="{% url 'about' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">ABOUT</a>
+  {% if user.is_authenticated %}
+  <a href="{% url 'account_logout' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">LOG-OUT</a>
+  {% else %}
+  <a href="{% url 'login' %}" class="font-sans font-normal text-3xl transition duration-300 hover:text-[#FD8C62]">LOG-IN</a>
+  {% endif %}
+</div>
+<script>
+  document.getElementById('menu-btn').addEventListener('click', function() {
+    var menu = document.getElementById('menu');
+    menu.classList.toggle('hidden');
+  });
+  
+  document.getElementById('profile-btn').addEventListener('click', function(event) {
+        var profileMenu = document.getElementById('profile-menu');
+        profileMenu.classList.toggle('hidden');
+
+        // Ensure the profile menu opens towards the left
+        profileMenu.style.right = '0';
+        profileMenu.style.left = 'auto';
+        profileMenu.style.top = '100%';
+    });
+
+    // Close the profile menu if clicked outside
+    window.addEventListener('click', function(event) {
+        var profileMenu = document.getElementById('profile-menu');
+        var profileBtn = document.getElementById('profile-btn');
+        if (event.target !== profileBtn && !profileBtn.contains(event.target) && !profileMenu.contains(event.target)) {
+            profileMenu.classList.add('hidden');
+        }
+    });
+</script>
+<div class="p-20  flex justify-between px-10 items-center">
+    <div class="max-w-5xl mx-auto">
+        <h1 class="text-3xl font-bold text-[#0097A5] mb-10">User Action Log</h1>
+        <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+            <thead class="bg-gray-200 text-gray-800 uppercase text-sm leading-normal">
+                <tr>
+                    <th class="py-3 px-6 text-left">User</th>
+                    <th class="py-3 px-6 text-left">Action</th>
+                <th class="py-3 px-6 text-left">Timestamp</th>
+                <th class="py-3 px-6 text-left">Details</th>
+                </tr>
+            </thead>
+            <tbody class="text-gray-700 text-sm divide-y divide-gray-300">
+                {% for log in logs %}
+                <tr>
+                    <td class="py-3 px-6">{{ log.user.username }}</td>
+                    <td class="py-3 px-6">{{ log.get_action_display }}</td>
+                    <td class="py-3 px-6">{{ log.timestamp }}</td>
+                    <td class="py-3 px-6">{{ log.details }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+  
+  <!-- FOOTER -->
+  <div class="p-5 px-20 bg-[#006D77] grid grid-cols-1 md:grid-cols-3 gap-7 shrink-0">
+    <!-- First Column -->
+    <div class="flex flex-col items-center md:items-start gap-4">
+        <div class="flex items-center space-x-2">
+            <i class="fa-regular fa-envelope text-white"></i>
+            <a class="font-sans font-normal text-s text-white" href="mailto:julian.robertsolano@ucr.ac.cr">julianrobertsolano01@gmail.com</a>
+        </div>
+        <div class="flex items-center space-x-2">
+            <i class="fa-brands fa-github text-white"></i>
+            <a class="font-sans font-normal text-s text-white" href="https://github.com/">Julian2603</a>
+        </div>
+        <div class="flex items-center space-x-2">
+            <i class="fa-brands fa-linkedin text-white"></i>
+            <a class="font-sans font-normal text-s text-white" href="https://www.linkedin.com/">Julian2603</a>
+        </div>
+    </div>
+    <!-- Second Column -->
+    <div class="flex flex-col items-center justify-center gap-2.5">
+        <p class="font-sans font-normal text-xl text-white text-center">Let's get in touch!</p>
+        <a href="{% url 'contact' %}" class="bg-[#83C5BE] transition duration-300 hover:bg-[#83C5BE]/70 p-1 px-6 rounded-lg font-sans font-medium text-xl text-black shadow-lg">Contact me</a>
+    </div>
+    <!-- Third Column -->
+    <div class="flex flex-col items-center md:items-end gap-1.5">
+        <div class="flex justify-center md:justify-end">
+            <img class="h-10" src="{% static 'imgs/logo-white.svg' %}">
+        </div>
+        <div class="text-center md:text-right">
+            <p class="font-sans font-normal text-s text-white">Copyright &#169; 2024 Julián Robert Solano. All Rights Reserved.</p>
+        </div>
+    </div>
+</div>
+
+  
 </body>
 </html>

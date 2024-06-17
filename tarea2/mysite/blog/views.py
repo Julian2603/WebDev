@@ -139,14 +139,14 @@ def subscribe(request):
     if form.is_valid():
         form.save()
         UserActionLog.objects.create(user=request.user, action='subscribe', details="Subscribed to the blog")
-        # Enviar correo de confirmación
-        send_mail(
-        'Subscription Confirmation',
-        'Thank you for subscribing to our blog!',
-        'from@example.com',
-        [form.cleaned_data['email']],
-        fail_silently=False,
-        )
+        # # Enviar correo de confirmación
+        # send_mail(
+        # 'Subscription Confirmation',
+        # 'Thank you for subscribing to our blog!',
+        # 'from@example.com',
+        # [form.cleaned_data['email']],
+        # fail_silently=False,
+        # )
 
   else:
     form = SubscriptionForm()
@@ -167,7 +167,7 @@ def delete_article(request, article_id):
         article = get_object_or_404(Article, id=article_id)
         article.delete()
 
-        UserActionLog.objects.create(user=request.user, action='post_delete', details=f"Deleted post {article_id}")
+        UserActionLog.objects.create(user=request.user, action='post_delete', details=f"Deleted article {article_id}")
 
         return JsonResponse({'status': 'success', 'redirect_url':reverse('blog')})
     return JsonResponse({'status': 'failed'}, status=400)
